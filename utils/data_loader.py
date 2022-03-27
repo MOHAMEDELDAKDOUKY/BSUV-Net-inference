@@ -91,7 +91,7 @@ class videoLoader(data.IterableDataset):
 
         ret, fr = self.vid_cap.read()
         if self.recent_bg:
-            self.recent_bg_sum = np.zeros_like(fr).astype(np.float)
+            self.recent_bg_sum = np.zeros_like(self.__preProc(fr)).astype(np.float)
 
         # Reinitialize the video reader
         self.vid_cap = cv2.VideoCapture(vid_path)
@@ -112,6 +112,7 @@ class videoLoader(data.IterableDataset):
             if ret:
                 # Preprocess
                 fr = self.__preProc(fr)
+                #fr = cv2.resize(fr, (1920,1072), interpolation = cv2.INTER_AREA)
 
                 # Initialize input
                 inp = {"empty_bg_seg": self.empty_bg_seg, "empty_bg": self.empty_bg,
@@ -120,7 +121,6 @@ class videoLoader(data.IterableDataset):
 
                 # Current frame
                 inp["current_fr"] = fr
-
                 # Recent background
                 if self.recent_bg:
                     if recent_bg_arr.full():
@@ -129,7 +129,9 @@ class videoLoader(data.IterableDataset):
                             self.recent_bg_sum -= old_bg
 
                     if self.recent_bg_opp == "mean":
+                        
                         self.recent_bg_sum += inp["current_fr"]
+
                         recent_bg_arr.put(inp["current_fr"])
                         inp["recent_bg"] = self.recent_bg_sum / recent_bg_arr.qsize()
 

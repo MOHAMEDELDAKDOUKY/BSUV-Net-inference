@@ -48,10 +48,10 @@ def segModel(yaml_path, encoder_path, decoder_path):
         use_softmax=True)
 
     crit = nn.NLLLoss(ignore_index=-1)
-
     segmentation_module = SegmentationModule(net_encoder, net_decoder, crit)
     segmentation_module.cuda()
     segmentation_module.eval()
+
     return segmentation_module
 
 def getFPM(im, seg_network, fpm=True):

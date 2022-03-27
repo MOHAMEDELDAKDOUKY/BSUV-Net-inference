@@ -1,6 +1,9 @@
 import sys
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0" 
 import configs.infer_config_manualBG as cfg
 import cv2
+
 import torch
 from utils.data_loader import videoLoader
 import time
@@ -19,7 +22,10 @@ fr = next(iter(vid_loader))
 c, h, w = fr.size()
 h = int(16 * int(h / 16))
 w = int(16 * int(w / 16))
-vid_out = cv2.VideoWriter(out_path, cv2.VideoWriter_fourcc(*"MP4V"), 30, (3*w+20, h), isColor=True)
+
+fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+
+vid_out = cv2.VideoWriter(out_path, fourcc, 30, (3*w+20, h), isColor=True)
 
 
 # Start Video Loader
@@ -61,7 +67,7 @@ with torch.no_grad():
             fr[:, 2 * w + 20:, ch] = inp_org[:, :, ch] * (bgs_pred + 1) / 2
 
         vid_out.write((fr * 255).astype(np.uint8))
-        if num_frames % 100 == 0:
+        if num_frames % 10 == 0:
             print("%d frames completed" %num_frames)
 vid_out.release()
 end = time.time()  # Inference end time
