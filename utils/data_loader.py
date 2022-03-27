@@ -85,9 +85,10 @@ class videoLoader(data.IterableDataset):
 
         # Initialize an array of recent background
         self.recent_bg = recent_bg
-        self.recent_bg_opp = recent_bg_opp
-        assert recent_bg or recent_bg_opp in ["mean"], \
-            "{} is not defined for <recent_bg_opp>. Use 'mean'.".format(recent_bg_opp)
+        self.recent_bg_opp = None # recent_bg_opp
+        # remove recent bg for two-stream
+        # assert recent_bg or recent_bg_opp in ["mean"], \
+        #     "{} is not defined for <recent_bg_opp>. Use 'mean'.".format(recent_bg_opp)
 
         ret, fr = self.vid_cap.read()
         if self.recent_bg:
