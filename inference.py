@@ -1,13 +1,18 @@
 import sys
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0" 
+
 import configs.infer_config_manualBG as cfg
 import cv2
-
 import torch
 from utils.data_loader import videoLoader
 import time
 import numpy as np
+
+
+dev = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = dev
+print("Using GPU: ", dev) 
+torch.cuda.empty_cache()
 
 assert len(sys.argv) > 2, "You must provide the input and output video paths"
 inp_path = sys.argv[1]
