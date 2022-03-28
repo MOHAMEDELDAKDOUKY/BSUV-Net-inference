@@ -9,7 +9,7 @@ import time
 import numpy as np
 
 
-dev = "0"
+dev = "1"
 os.environ["CUDA_VISIBLE_DEVICES"] = dev
 print("Using GPU: ", dev) 
 torch.cuda.empty_cache()
