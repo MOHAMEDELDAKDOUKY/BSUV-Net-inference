@@ -90,6 +90,7 @@ class videoLoader(data.IterableDataset):
             "{} is not defined for <recent_bg_opp>. Use 'mean'.".format(recent_bg_opp)
 
         ret, fr = self.vid_cap.read()
+        fr = cv2.resize(fr, (320, 240), interpolation= cv2.INTER_AREA)
         if self.recent_bg:
             self.recent_bg_sum = np.zeros_like(fr).astype(np.float)
 
@@ -120,7 +121,7 @@ class videoLoader(data.IterableDataset):
 
                 # Current frame
                 inp["current_fr"] = fr
-
+                print(fr.shape)
                 # Recent background
                 if self.recent_bg:
                     if recent_bg_arr.full():
@@ -158,12 +159,15 @@ class videoLoader(data.IterableDataset):
     def __readRGB(self, path):
         assert os.path.exists(path), "{} does not exist".format(path)
         im = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB).astype(np.float)/255
+        im = cv2.resize(im, (320, 240), interpolation= cv2.INTER_AREA)
+        # (720, 576)
         h, w, _ = im.shape
         h_valid = int(h / 16) * 16
         w_valid = int(w / 16) * 16
         return im[:h_valid, :w_valid, :]
 
     def __preProc(self, fr):
+        fr = cv2.resize(fr, (320, 240), interpolation= cv2.INTER_AREA)
         h, w, _ = fr.shape
         h_valid = int(h / 16) * 16
         w_valid = int(w / 16) * 16
