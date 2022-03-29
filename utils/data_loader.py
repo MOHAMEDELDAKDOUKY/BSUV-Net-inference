@@ -113,7 +113,6 @@ class videoLoader(data.IterableDataset):
             if ret:
                 # Preprocess
                 fr = self.__preProc(fr)
-                #fr = cv2.resize(fr, (1920,1072), interpolation = cv2.INTER_AREA)
 
                 # Initialize input
                 inp = {"empty_bg_seg": self.empty_bg_seg, "empty_bg": self.empty_bg,
@@ -161,14 +160,15 @@ class videoLoader(data.IterableDataset):
     def __readRGB(self, path):
         assert os.path.exists(path), "{} does not exist".format(path)
         im = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB).astype(np.float)/255
-        im = cv2.resize(im, (224,224), interpolation= cv2.INTER_AREA)
+        im = cv2.resize(im, (720, 576), interpolation= cv2.INTER_AREA)
+
         h, w, _ = im.shape
         h_valid = int(h / 16) * 16
         w_valid = int(w / 16) * 16
         return im[:h_valid, :w_valid, :]
 
     def __preProc(self, fr):
-        fr = cv2.resize(fr, (224,224), interpolation= cv2.INTER_AREA)
+        fr = cv2.resize(fr, (720, 576), interpolation= cv2.INTER_AREA)
         h, w, _ = fr.shape
         h_valid = int(h / 16) * 16
         w_valid = int(w / 16) * 16
