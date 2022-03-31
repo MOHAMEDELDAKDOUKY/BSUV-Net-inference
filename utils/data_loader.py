@@ -121,7 +121,6 @@ class videoLoader(data.IterableDataset):
 
                 # Current frame
                 inp["current_fr"] = fr
-                print(fr.shape)
                 # Recent background
                 if self.recent_bg:
                     if recent_bg_arr.full():

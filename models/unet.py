@@ -11,9 +11,8 @@ class unet_vgg16(nn.Module):
         kernel_size (int): Size of the convolutional kernels
         skip (bool, default=True): Use skip connections
     """
-    def __init__(self, inp_ch, kernel_size=3, adversary='no', num_cat=11, num_vid=53, skip=True):
+    def __init__(self, inp_ch, kernel_size=3, skip=True):
         super(unet_vgg16, self).__init__()
-        self.adversary = adversary
         self.skip = skip
         self.enc1 = UNetDown(inp_ch, 64, 2, batch_norm=True, maxpool=False, kernel_size=kernel_size)
         self.enc2 = UNetDown(64, 128, 2, batch_norm=True, maxpool=True, kernel_size=kernel_size)
@@ -26,11 +25,10 @@ class unet_vgg16(nn.Module):
         self.dec1 = UNetUp(128, skip*64, 64, 2, batch_norm=True, kernel_size=kernel_size)
         self.out = ConvSig(64)
 
-    def forward(self, inp, alpha=0):
+    def forward(self, inp):
         """
         Args:
             inp (tensor) :              Tensor of input Minibatch
-            alpha (float or [float]):   Multiplier for gradient reversal layer(s) only when "*dann" is selected as adversary
 
         Returns:
             (tensor): Change detection output
