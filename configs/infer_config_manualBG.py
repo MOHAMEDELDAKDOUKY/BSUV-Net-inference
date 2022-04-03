@@ -26,13 +26,13 @@ class BSUVNet:
 
     # #model without FPM
     #model_path = "./trained_models/Fast-BSUV-Net-2.0.mdl"
-    model_path = "./trained_models/model_epoch20.mdl"
+    model_path = "./trained_models/model_best_epoch_13.mdl"
 
     seg_network = None
 
     emtpy_bg = "manual"  # Automatically create an empty BG frame as median of initial frames
     empty_win_len = 30  # Number of initial frames to be used for the empty BG model when empty_bg="automatic"
-    empty_bg_path = "examples/bg_PETS2006.jpg"#bg_sample  bg_office bg_PETS2006 Candela_m1_10_empty_BG.jpg" # Path of the empty background. Only used when empty_bg="manual"
+    empty_bg_path = "examples/Candela_m1_10_empty_BG.jpg"#bg_sample  bg_office bg_PETS2006 Candela_m1_10_empty_BG.jpg" # Path of the empty background. Only used when empty_bg="manual"
     recent_bg = 10  # Number of last frames to be used for recent BG model
 
     seg_ch = False if seg_network is None else True
