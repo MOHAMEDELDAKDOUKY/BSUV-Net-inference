@@ -26,7 +26,7 @@ class BSUVNet:
 
     # #model without FPM
     #model_path = "./trained_models/Fast-BSUV-Net-2.0.mdl"
-    model_path = "./trained_models/model_best_epoch_13.mdl"
+    model_path = "./trained_models/model_epoch20.mdl"
 
     seg_network = None
 
