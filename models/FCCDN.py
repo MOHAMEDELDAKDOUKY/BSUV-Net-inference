@@ -9,7 +9,7 @@ import torch.nn.functional as F
 bn_mom = 0.0003
 
 class FCS(torch.nn.Module):
-    def __init__(self, num_band, os=16, use_se=False, **kwargs):
+    def __init__(self, num_band, os=8, use_se=True, **kwargs):
         super(FCS, self).__init__()
         if os >= 16:
             dilation_list = [1, 1, 1, 1]
