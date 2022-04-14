@@ -161,7 +161,7 @@ class videoLoader(data.IterableDataset):
         assert os.path.exists(path), "{} does not exist".format(path)
         im = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB).astype(np.float)/255
         # (720, 576)
-        im = cv2.resize(im, (320, 240), interpolation= cv2.INTER_AREA)
+        im = cv2.resize(im, (224, 224), interpolation= cv2.INTER_AREA)
 
         h, w, _ = im.shape
         h_valid = int(h / 16) * 16
@@ -169,7 +169,7 @@ class videoLoader(data.IterableDataset):
         return im[:h_valid, :w_valid, :]
 
     def __preProc(self, fr):
-        fr = cv2.resize(fr, (320, 240), interpolation= cv2.INTER_AREA)
+        fr = cv2.resize(fr, (224, 224), interpolation= cv2.INTER_AREA)
         h, w, _ = fr.shape
         h_valid = int(h / 16) * 16
         w_valid = int(w / 16) * 16
